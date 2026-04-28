@@ -1,0 +1,22 @@
+# PubMed RAG configuration. Static, non-secret settings live here.
+# Secrets (API keys) live in .env (see .env.example).
+
+pubmed:
+  # E-utilities query string. Swappable for other diseases.
+  query: '("non-small cell lung cancer"[Title/Abstract] OR "NSCLC"[Title/Abstract]) AND hasabstract[Filter] AND english[Language]'
+  max_results: 1000
+  batch_size: 200
+
+models:
+  embedding: voyage-3-large
+  rerank: rerank-2
+  generator: claude-sonnet-4-6
+  judge: claude-haiku-4-5-20251001
+
+retrieval:
+  # Per-retriever pool size before fusion (dense top-N, BM25 top-N).
+  retrieve_pool: 50
+  # Candidates returned after RRF fusion, fed to the reranker.
+  retrieve_k: 20
+  # Final top-K after rerank, fed to the generator.
+  rerank_k: 5
